@@ -1,0 +1,35 @@
+{
+    "indexid": {
+        "cn": "编号", "en": "Index ID"
+    },
+    "qrcode": {
+        "cn": "条形码", "en": "Qrcode"
+    },
+    "proname": {
+        "cn": "商品名称", "en": "Proname"
+    },
+    "proprice": {
+        "cn": "商品价格", "en": "Proprice"
+    }, 
+    "specification": {
+        "cn": "规格", "en": "Specification"
+    },
+    "category": {
+        "cn": "单位", "en": "Category"
+    },
+    "qty": {
+        "cn": "商品数量", "en": "Qty"
+    },
+    "sale": {
+        "cn": "商品已售", "en": "Sale"
+    },
+    "storage": {
+        "cn": "库存", "en": "Storage"
+    },
+    "pd": {
+        "cn": "生产日期", "en": "pd"
+    },
+    "suppliername": {
+        "cn": "供应商", "en": "Suppliername"
+    }
+}

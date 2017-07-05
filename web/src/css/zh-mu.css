@@ -1,0 +1,96 @@
+@charset "UTF-8";
+/*公共部分*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*重置样式表*/
+/*==========样式重置===========*/
+body, h1, h2, h3, h4, h5, h6, p, a, input, img, ul, li, ol, dl, dt, dd {
+  padding: 0;
+  margin: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  display: block;
+  border: 0;
+}
+
+input {
+  outline: none;
+}
+
+header, footer, section, nav {
+  display: block;
+}
+
+html, body {
+  font-size: 16px;
+  font-family: "微软雅黑";
+  color: #3e3e3e;
+}
+
+a {
+  font-size: 14px;
+  text-decoration: none;
+  color: #0dc441;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.nav1 {
+  width: 100%;
+  border:1px solid #ccc;
+  z-index: 100;
+  position: fixed;
+  background: #f9f9f9;
+  top:0;
+}
+
+.nav1 .title_nav {
+  float: left;
+  padding: 0px 23px;
+  line-height: 40px;
+}
+
+
+
+.shouye {
+  width: 100%;
+  height: 100%;
+}
+
+.shouye div {
+  width: 33%;
+  height: 100%;
+  float: left;
+}
+
+.shouye div fieldset {
+  width: 250px;
+  margin: 30px auto;
+  height: 150px;
+}
+
+.shouye div fieldset a {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  border: 1px solid #ccc;
+  text-align: center;
+  margin-left: 20px;
+  margin-top: 10px;
+  line-height: 80px;
+}
+
+.goods {
+  background: skyblue;
+}

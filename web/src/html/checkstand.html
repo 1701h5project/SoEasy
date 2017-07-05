@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>checkstand</title>
+	<link rel="stylesheet" href="../css/checkstand.css">
+	<link rel="stylesheet" href="../css/zh-mu.css">
+	<script src="../assets/jquery/jquery-2.1.1.min.js"></script>
+	<script src="../assets//angular/angular.min.js"></script>
+	<script src="../assets/angular/angular.global.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../assets/common/global.js"></script>
+</head>
+<body ng-app="zzApp" >
+	<div ng-controller="checkstand" id="container">
+		<div class="main1">
+			<p class="title">
+				SoEasy收银软件V1.0--收银台
+			</p>
+		</div>
+		<div class="main2 clearfix">
+			<div class="goodsNum">
+				<span>商品编号/条形码：</span>
+				<input type="text" ng-model="num" ng-change="getGoods(num)">
+				
+			</div>
+			<div class="guideMsg">
+				<span>导购员：</span>
+				<select name="guideName" id="guideName">
+					<option value=""></option>
+				</select>
+				<p>小票流水号：<span>201707030001</span></p>
+			</div>
+		</div>
+		<div class="main3">
+			<table border="1" rules="all">
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>条形码</th>
+						<th>商品名称</th>
+						<th>单位</th>
+						<th>单价</th>
+						<th>数量</th>
+						<th>生产日期</th>
+						<th>供应商</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(key, item) in data" ng-cloak>
+						<td ng-bind="item.indexid"></td>
+						<td ng-bind="item.qrcode"></td>
+						<td ng-bind="item.proname"></td>
+						<td ng-bind="item.specification"></td>
+						<td ng-bind="item.proprice"></td>
+						<td ng-bind="item.qty"></td>
+						<td ng-bind="item.pd"></td>
+						<td ng-bind="item.suppliername"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="main4 clearfix">
+			<div class="main4_left">
+				<div class="total">
+					<p class="price_info">共：￥<span ng-bind="total"></span></p>
+					<p class="count_info">商品数量：<span ng-bind="count"></span></p>
+				</div>
+				<div class="discount">
+					<p>折扣：￥<span ng-bind="_total"></span></p>
+				</div>
+			</div>
+			<div class="main4_right">
+				<div class="receivable">
+					<span>应收：</span>
+					<input type="text" ng-model="total" disabled>
+					<select name="" id="">
+						<option value=""></option>
+					</select>
+				</div>
+				<div class="gathering">
+					<span>收款：</span>
+					<input type="text" ng-model="receipt" ng-blur="calculate()">
+					<button ng-click="dz()" ng-cloak>打折</button>
+				</div>
+				<div class="change">
+					<span>找零：</span>
+					<input type="text" ng-value="result" disabled>
+				</div>
+				<div class="handle">
+					<button ng-click="dy()">结算打印</button>
+					<button>退货</button>
+				</div>
+			</div>
+			<div class="main5 clearfix">
+				<div class="main5_left">
+					<div class="vip">
+						<span>会员卡(Z)：</span>
+						<input type="text" ng-model="vipMsg">
+						<i ng-click = "vip(vipMsg)">√</i>
+						<b>＋</b>
+					</div>
+					<div class="integral">
+						<span>本次积分(X)：</span>
+						<select name="" id="">
+							<option value=""></option>
+						</select>
+						<button>兑换(C)</button>
+					</div>
+						
+				</div>
+				<div class="main5_right">
+					<button>挂单</button>
+					<button>取单</button>
+					<button>删单</button>
+				</div>
+			</div>
+			<div class="main6">
+				<p>姓名：<span ng-bind="vipName"></span></p>
+				<p>级别：<span ng-bind="vipLevel"></span></p>
+				<p>专享折扣：<span ng-bind="vipDiscount"></span></p>
+				<button >备注</button>
+			</div>
+		</div>
+		<div class="favorable" ng-show="show" ng-cloak>
+			<div class="title2"><h3>折扣</h3></div>
+			<div class="rate">折&nbsp;扣&nbsp;&nbsp;率：<input type="text"  ng-change="calculate()" ng-model="vipDiscount">%</div>
+			<div class="sum">折扣金额：<input type="text" ng-value="_total"></div>
+			<div class="received">实收金额：<input type="text" ng-value="total"></div>
+			<div class="btn">
+				<button ng-click="show = false">确定</button ><button ng-click="show = false">取消</button>
+			</div>
+		</div>
+		<div class="invoice" ng-show="xs" ng-cloak>
+			<h3>广州千锋(天河店)</h3>
+			<p class="dh">单号:<span>201707030001</span></p>
+			<p>==========================</p>
+			<table>
+				<tr>
+					<th>品名</th>
+					<th>数量</th>
+					<th>单价</th>
+					<!-- <th>金额</th> -->
+				</tr>
+				<tr ng-repeat="(key, item) in data" ng-cloak>
+					<td ng-bind="item.proname"></td>
+					<td ng-bind="1"></td>
+					<td ng-bind="item.proprice"></td>
+				</tr>
+			</table>
+			<p>==========================</p>
+			<div class="listMsg">
+				<p class="sc">售出商品数:<span ng-bind="count"></span></p>
+				<p class="hz">合计:<span ng-bind="total"></span></p>
+				<p class="ss">实收:<span ng-bind="receipt"></span></p>
+				<p class="find">找回:<span ng-bind="result"></span></p>
+			</div>
+			
+			<div class="btn1">
+				<button ng-click="xs = false">确定</button><button ng-click="xs = false">取消</button>
+			</div>
+			
+		</div>
+	</div>
+
+	<script>
+
+		var zzApp = angular.module('zzApp',['globalapp']);
+		var arr = [];
+		
+		zzApp.controller('checkstand',['$scope','$http',function($scope,$http){
+			
+			$scope.xs = false;
+			$scope.show = false;
+			$scope.receipt = $scope.receipt || '0.00'
+			$scope.total = $scope.total || '0.00'
+			$scope._total = $scope._total || '0.00'
+			$scope.result = $scope.result || '0.00'
+		 	$scope.count = $scope.count || 0
+		 	$scope.vipName = $scope.vipName || '暂无';
+		 	$scope.vipLevel = $scope.vipLevel || '暂无';
+			$scope.vipDiscount = $scope.vipDiscount || '100';
+			$scope.count = $scope.count || 1;
+		 	//封装总价和数量
+		 	$scope.resetPrice = function(){
+				var price = 0;
+				var qty = 0;
+				for(var i = 0;i<$scope.data.length;i++){
+					 price += $scope.data[i].proprice * $scope.data[i].qty
+					 qty += $scope.data[i].qty
+					 $scope.total = price.toFixed(2)
+					 $scope.count = qty
+				}
+					
+		 	}
+
+		 	//封装结算价钱
+		 	$scope.setPrice = function(){
+		 		var _result = ''
+
+		 		$scope.receipt.indexOf('.')>-1?$scope.receipt:$scope.receipt+='.00'
+
+		 		if($scope.receipt){
+		 			
+		 			_result = $scope.receipt - $scope.total
+		 			$scope.result = _result.toFixed(2)
+		 			$scope.arithmetical()
+		 		}else{
+		 			$scope.receipt = '0.00'
+				
+					$scope.result = '0.00'
+		 		}
+		 	}
+
+		 	//计算折扣
+		 	$scope.arithmetical = function(){
+		 		var a = 0;
+		 		var b = 0;
+		 		var c = Number($scope.total)+Number($scope._total);
+		 		var d = 0;
+		 		var e = 0;
+		 		a = $scope.vipDiscount / 100;//80,0.8
+		 		b = 1 - a;
+		 		d = c*a //计算实收现金
+		 		e = c*b //计算折扣现金
+
+		 		$scope.total = d.toFixed(2);
+		 		$scope._total = e.toFixed(2);
+		 	}
+
+		 	//计算价格
+		 	$scope.calculate = function(){	
+		 			$scope.arithmetical()
+		 			$scope.setPrice()
+		 	}
+
+		 	$scope.dz = function(){
+
+		 		$scope.arithmetical()
+		 		$scope.setPrice()
+		 		$scope.show = true;
+		 	}
+
+		 	//获取会员信息
+		 	$scope.vip = function(num){
+		 		$http({
+					method:'get',
+					url:erp.baseUrl+'getVip',
+					params:{phone:num}
+					// data:{id:1}
+				}).then(function(res){
+				
+					$scope.vipName = res.data[0].username;
+					$scope.vipLevel = res.data[0].level;
+					$scope.vipDiscount = res.data[0].discount;
+				})
+		 	}
+			
+			//打印
+			$scope.dy = function(){
+				if($scope.data[0]){
+					console.log(666)
+					$scope.xs = true;
+				}else{
+					$scope.xs = false;
+				}
+			}
+			// 根据条形码请求数据
+			$scope.getGoods = function(num){
+				//判断开关
+				$scope.judge = true;
+				if(!num || num.length != 13){
+					
+					return false;
+				}else{
+				
+					$http.get(erp.baseUrl+'getGoods',{params: {code:num}}).success(function(res){
+						for(var i = 0;i<res.length;i++){			
+							for(var j = 0;j<arr.length;j++){
+								if(arr[j].qrcode.indexOf(res[i].qrcode)>-1){
+									arr[j].qty++
+									$scope.data = arr
+									$scope.judge = false;
+								}
+							}
+							if($scope.judge){
+								arr.push(res[i])
+								$scope.data = arr
+
+							}
+						}
+						console.log('1111',$scope.data)
+						$scope.resetPrice()
+						
+					})
+				}
+			}
+
+				
+		}])
+
+	</script>
+</body>
+</html>

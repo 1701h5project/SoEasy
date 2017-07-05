@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+}
+
+body .member {
+  z-index: 9;
+  margin: 20px 20px 0 20px;
+  overflow: hidden;
+}
+
+body .member .member-ul {
+  overflow: hidden;
+}
+
+body .member .member-ul > li {
+  float: left;
+  margin-right: 5px;
+}
+
+body .member .member-ul > li > button {
+  width: 90px;
+  background: #f9f9f9;
+}
+
+body .member .member-ul > li > button > a {
+  color: #000;
+}
+
+body .member .member-ul .btns {
+  float: right;
+}
+
+body .member .member-Nav .member-nav {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-bottom: 0;
+  display: flex;
+}
+
+body .member .member-Nav .member-nav .member-nav-li {
+  padding: 10px 0;
+  width: auto;
+  float: left;
+  font-size: 14px;
+  font-weight: 700;
+  flex: 1;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+body .member .member-Nav .member-table {
+  margin: 0;
+  padding: 0;
+}
+
+body .member .member-Nav .member-table > li {
+  display: flex;
+}
+
+body .member .member-Nav .member-table > li > span {
+  padding: 8px 0;
+  flex: 1;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+body .member .member-Nav .member-table .focus {
+  background-color: skyblue;
+}
+
+body .zxcv {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+body .zxcv .form-horizontal {
+  margin-top: 100px;
+  padding: 0;
+}
+
+body .zxcv .form-horizontal .control-group {
+  text-align: center;
+}
+
+body .zxcv .form-horizontal .control-group > input {
+  margin-left: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+  width: 200px;
+  height: 30px;
+}
+
+body .zxcv .form-horizontal .control-group > select {
+  margin-left: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+  width: 200px;
+  height: 30px;
+}
+
+body .zxcv .form-horizontal .form-group {
+  text-align: center;
+}
+
+body .zxcv .form-horizontal .form-group .control-label {
+  margin-left: -26px;
+}
+
+body .zxcv .form-horizontal .form-group > input {
+  margin-left: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+  width: 200px;
+  height: 30px;
+}
+
+body .zxcv .button-btn {
+  margin-left: 45%;
+}

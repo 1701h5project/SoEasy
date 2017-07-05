@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>商品单位管理</title>
+	<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/UnitsM.css">
+	<link rel="stylesheet" href="../assets/jquery-confirm/jquery-confirm.css">
+	<script src="../assets/angular/angular.min.js"></script>
+	<script src="../assets/jquery/jquery-2.1.1.min.js"></script>
+	<script src="jquery-confirm.js"></script>
+	<script src="../assets/angular/angular.global.js"></script>
+	<script src="../assets/common/global.js"></script>
+	<link rel="stylesheet" href="../css/zh-mu.css">
+	<script src="../js/common.js"></script>
+</head>
+<body ng-app="zhApp" ng-controller="zhController" ng-cloak>
+	<navid api="student/FetchAllStudent"></navid>
+	<div id="mask" ng-show="showMask"></div>
+	<div id="main">
+		<form id="classifyForm" ng-show="showAdd">
+			<div class="form-group">
+				<label for="unitName">*请输入单位名称</label>
+				<input type="text" class="form-control" id="unitName" placeholder="单位名称" ng-model="unitName">
+			</div>
+			<nav id="classifynav">
+				<button class="btn btn-info" ng-click="save()">保存</button>
+				<button class="btn btn-danger" ng-click="back()">返回</button>
+			</nav>
+		</form>
+		<form id="modifyForm" ng-show="showModify">
+			<div class="form-group">
+				<label for="unitNameM">*请输入单位名称</label>
+				<input type="text" class="form-control" id="unitNameM" ng-model="singleData[0].unit"placeholder="类别名称">
+			</div>
+			<nav id="classifynav">
+				<button class="btn btn-info" ng-click="modify()">修改</button>
+				<button class="btn btn-danger" ng-click="backM()">返回</button>
+			</nav>
+		</form>
+		<form id="createForm" target="ajaxFrame">
+			<h4>商品单位管理</h4>
+			<div id="main-mid">
+				<table class="table">
+					<tbody ng-click="select($event)">
+						<tr ng-repeat="items in setdata" id="{{items.indexid}}">
+							<td class="td" ng-bind="items.unit"></td>
+						</tr>	
+					</tbody>			
+				</table>
+			</div>
+			<nav id="zhnav">
+				<button class="btn btn-info" ng-click="flash()">刷新</button>
+				<button class="btn btn-info" ng-click="show()">添加</button>
+				<button class="btn btn-info" ng-click="showM()">编辑</button>
+				<button class="btn btn-info" ng-click="del()">删除</button>
+
+			</nav>
+		</form>
+		<iframe name="ajaxFrame" style="display: none;"></iframe>
+	</div>
+	<script>
+		var zhApp=angular.module('zhApp',['globalapp','commonApp']);
+		zhApp.controller('zhController', ['$scope','$http', function($scope,$http){
+			$http.get(erp.baseUrl+'zhgetUnitdata').success(function(response){
+				$scope.setdata=response
+			})
+			//默认不显示
+			$scope.showMask=false;
+			$scope.showAdd=false;
+			$scope.showModify=false;
+			//添加弹窗
+			$scope.show=function(){
+				$scope.showAdd=!$scope.showAdd;
+				$scope.showMask=!$scope.showMask;
+			}
+			//刷新
+			$scope.flash=function(){
+				$http.get(erp.baseUrl+'zhgetUnitdata').success(function(response){
+					$scope.setdata=response
+					$.alert("刷新成功！")
+				})
+			}
+			//添加
+			$scope.save=function(){
+				var obj={}
+				obj.unitName=$scope.unitName;
+				if(obj.unitName){
+					$http({method:'post',url:erp.baseUrl+'zhsaveUnitdata',data:obj}).success(function(response){
+						$scope.unitName='';
+						$.alert('添加成功！')
+						$http.get(erp.baseUrl+'zhgetUnitdata').success(function(response){
+							$scope.setdata=response
+						})
+					})
+				}else{
+					$.alert('带*为必填项，请把信息补充完整！')
+				}
+			}
+			$scope.back=function(){
+				$scope.showAdd=!$scope.showAdd;
+				$scope.showMask=!$scope.showMask;
+			}
+			//编辑
+			$scope.showM=function(){
+				if(document.getElementsByClassName('select')[0]){
+					$scope.showModify=!$scope.showModify;
+					$scope.showMask=!$scope.showMask;
+					var id=document.getElementsByClassName('select')[0].id
+					$http.get(erp.baseUrl+'zhgetUnitSingleData',{params: { 'indexid':id }}).success(function(response){
+						$scope.singleData=response;
+						console.log(response)
+					})
+				}else{
+					$.alert('请选择要编辑的类别！')
+				}
+			}
+			$scope.backM=function(){
+				$scope.showModify=!$scope.showModify;
+				$scope.showMask=!$scope.showMask;
+			}
+			//保存修改
+			$scope.modify=function(){
+				var obj=$scope.singleData[0]
+				console.log(obj)
+				if(obj.unit){
+					$http({method:'post',url:erp.baseUrl+'zhmodifyUnitdata',data:obj}).success(function(response){
+						$.alert('修改成功');
+						$scope.backM();
+					})
+				}else{
+					$.alert('带*为必填项，请把信息补充完整！')
+				}
+			}
+			//删除
+			$scope.del=function(){
+				if(document.getElementsByClassName('select')[0]){
+					if(confirm('是否要删除该单位?')){
+						var id=document.getElementsByClassName('select')[0].id
+						$http.get(erp.baseUrl+'zhdelUnitData',{params: { 'indexid':id }}).success(function(response){
+							$.alert('删除成功！')
+							$http.get(erp.baseUrl+'zhgetUnitdata').success(function(response){
+								$scope.setdata=response
+							})
+						})
+					}
+				}else{
+					$.alert('请选择要删除的单位！')
+				}
+			}
+			//选择行
+			$scope.select=function(event){
+				for(var i=0;i<event.target.parentElement.parentElement.children.length;i++){
+					event.target.parentElement.parentElement.children[i].classList.remove('select')
+				}
+				event.target.parentElement.classList.add('select')
+			}
+		}])
+	</script>
+</body>
+</html>

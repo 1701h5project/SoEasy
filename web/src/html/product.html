@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/product.css">
+    <script src="../assets/angular/angular.min.js"></script>
+    <script src="../assets/angular/angular-sanitize.min.js"></script>
+    <script src="../assets/jquery/jquery-2.1.1.min.js"></script>
+    <script src="../assets/angular/angular.global.js"></script>
+    <script src="../js/product.js"></script>
+    <link rel="stylesheet" href="../css/zh-mu.css">
+    <script src="../js/common.js"></script>
+</head>
+<body ng-app="app" ng-controller="myController">
+    <navid api="student/FetchAllStudent"></navid>
+    <div class="productList">
+        <div>
+            <table class="table table-striped table-hover table-condensed">
+                <thead>
+                    <th ng-repeat="(key, value) in dataset[0]" ng-bind="proDictionary[key].cn"></th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="obj in dataset" ng-click="getFn()">
+                        <td ng-repeat="(key, value) in obj" ng-bind="value"></td>
+                    </tr>
+                </tbody>           
+            </table>            
+        </div>
+    </div>
+    <div class="productCtrl">
+        <div>
+            <form>
+                <div class="form-group"><label>条形码:</label><input type="text" class="form-control" ng-model="qrcode"></input></div>
+                <div class="form-group"><label>商品名称:</label><input type="text" class="form-control" ng-model="proname"></input></div>
+                <div class="form-group"><label>商品价格:</label><input type="text" class="form-control" ng-model="proprice"></input></div>
+                <div class="form-group"><label>商品已售:</label><input type="text" class="form-control" ng-model="sale"></input></div>
+                <div class="form-group"><label>商品库存:</label><input type="text" class="form-control" ng-model="storage"></input></div>
+                <div class="form-group"><label>生产日期:</label><input type="text" class="form-control" ng-model="pd"></input></div>
+                <div class="form-group">
+                    <label>供应商:</label>
+                        <select type="search" class="form-control" ng-model="suppliername" onchange="self.location.href=(options[selectedIndex].value=='supplierM.html'?options[selectedIndex].value:'javascript:')">
+                            <option ng-repeat="(key, value) in supplierInfo" ng-bind="value" ng-value="value"></option>
+                            <option value="supplierM.html">添加</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label>商品规格:</label>
+                        <select type="search" class="form-control" ng-model="specification" onchange="self.location.href=(options[selectedIndex].value=='UnitsM.html'?options[selectedIndex].value:'javascript:')">
+                            <option ng-repeat="(key, value) in specificationInfo" ng-bind="value" ng-value="value"></option>
+                            <option value="UnitsM.html">添加</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label>商品类型:</label>
+                        <select type="search" class="form-control" ng-model="category" onchange="self.location.href=(options[selectedIndex].value=='classifyM.html'?options[selectedIndex].value:'javascript:')">
+                            <option ng-repeat="(key, value) in categoryInfo" ng-bind="value" ng-value="value"></option>
+                            <option value="classifyM.html">添加</option>
+                        </select>
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-click="addFn()">添加</button>
+                    <button type="button" class="btn btn-default" ng-click="modFn()">编辑</button>
+                    <button type="button" class="btn btn-default" ng-click="delFn()">删除</button>
+                    <button type="button" class="btn btn-default" ng-click="retFn()">返回</button>
+                </div>            
+            </form>            
+        </div>
+    </div>
+    <script>
+        //显示商品控制区域
+        //var app = angular.module('app',['commonApp']);
+        $(document).click(function(){
+            $(".productCtrl").animate({"right":"0"})
+        });
+        //阻止点击控制区域弹出事件
+        $(".productCtrl").click(function(event){
+            event.stopPropagation();
+        });
+    </script>
+</body>
+</html>

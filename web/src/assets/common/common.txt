@@ -1,0 +1,26 @@
+{
+    "indexid": {
+        "cn": "编号", "en": "Index ID"
+    },
+    "level": {
+        "cn": "级别", "en": "Level"
+    }, 
+    "phone": {
+        "cn": "手机号码", "en": "Phone"
+    },
+    "discount": {
+        "cn": "折扣", "en": "Discount"
+    },
+    "username": {
+        "cn": "名字", "en": "User Name"
+    },
+    "integral": {
+        "cn": "积分", "en": "Integral"
+    },
+    "balance": {
+        "cn": "余额", "en": "Balance"
+    },
+    "date": {
+        "cn": "日期", "en": "Update Time"
+    }
+}

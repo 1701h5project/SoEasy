@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/storageMange.css">
+    <!-- <link rel="stylesheet" href="../css/zh-mu.css"> -->
+    <title>Document</title>
+    <script src="../assets/jquery/jquery-2.1.1.min.js"></script>
+    <script src="../assets/angular/angular.min.js"></script>
+    <script src="../assets/angular/angular-sanitize.min.js"></script>
+    <script src="../js/storageMange.js"></script>
+    <script src="../assets/common/global.js"></script>
+    <script src="../assets/angular/angular.global.js"></script>
+    <script src="../assets/angular-ui/angular-ui-router.min.js"></script>
+    <!-- <script src="../js/common.js"></script> -->
+</head>
+<body ng-app="ykApp" ng-controller="ctrl1">
+    <!-- <navid api="student/FetchAllStudent"></navid> -->
+    <div>
+        <div class="storage_title">
+            入 库 管 理
+        </div>        
+        <div class="bs-example" data-example-id="simple-table" >
+            <table class="table table-bordered dk-datagrid">
+                <thead>
+                    <tr>
+                        <th data-ui-sref=".page1">添加</th>
+                        <th ng-click='bianji()'>编辑</th>
+                        <th ng-click="delete()">删除</th>
+                        <th>条码打印</th>
+                         <th ng-click='tosearch()'>查询</th>
+                        <th>排序</th>
+                        <th>打印报表</th>
+                        <th><a href="index.html">导出</a></th>
+                         <th>批量导入</th>
+                        <th>库存盘点</th>
+                        <th data-ui-sref=".mainpage">显示全部</th>
+                        
+                    </tr>
+                </thead>
+                
+            </table>             
+        </div>
+        <div data-ui-view=''>
+            <stocontent></stocontent>
+            
+             
+        </div>
+        <div class="ykmask" ng-show='showmask'>
+            <p><span>商品查询</span><span ng-click="toclose()">X</span></p>
+            <form>
+                <div class="form-group">
+                    <label for="tiao">请输入要查找的商品条码</label>
+                    <input type="text" class="form-control" id="tiao" placeholder="商品条码" ng-model='search_value'>
+                </div>
+               
+            </form>
+            <div>
+                <button type="button" class="btn btn-success" ng-click="toclose1()">确定</button>
+                <button type="button" class="btn btn-warning" ng-click="toclose()">取消</button>
+            </div>
+        </div>
+        
+           
+        
+    </div>    
+</body>
+<script>
+        var App = angular.module('ykApp',['ngSanitize','commonApp','globalapp','ui.router']);
+        App.controller('ctrl1',['$scope','$http','$state',function($scope,$http,$state){
+            
+          $scope.isshow=true;
+          $scope.search_value='';
+            $scope.add_goods=function(){
+               
+            }
+            $scope.tosearch=function(){
+               $scope.showmask=true;
+            }
+             $scope.toedit=function(obj,index){
+                
+                 $state.go('page1',{args:obj})
+                    
+            }
+            $scope.toclose1=function(){
+                var to_search=$scope.search_value
+                // $scope.$$childTail.data
+                var tem_arr= $scope.$$childTail.data;
+                var arr1=[]
+               tem_arr.forEach(function(item){
+                    if(item.tiaoma==to_search){
+                        $scope.$$childTail.data=[];
+                         $scope.$$childTail.data[0]=item;
+                    }
+                    arr1.push(item.tiaoma)
+               })
+               if(arr1.indexOf(to_search)==-1){
+                   alert('没有找到对应的商品！')
+               }
+              
+
+            }
+            $scope.toclose=function(){
+                  $scope.showmask=false;
+            }
+            $scope.getidx=function(event,obj){
+                $scope.tem_obj= obj;
+                
+                $(event.target).closest('tbody').find('tr').removeClass('ykactive')
+                $(event.target).closest('tr').addClass('ykactive')
+            }
+            $scope.bianji=function(){
+                var obj1=$scope.tem_obj;
+                $state.go('page1',{args:obj1})
+            }
+            $scope.delete=function(){
+               var del_id=$scope.$$childTail.indexid
+             
+               $http.post(erp.baseUrl+'delMsg',{indexid:del_id}).success(function(res){
+                   
+                   if(!res){
+                       return false
+                   }else{
+                       alert('删除成功！')
+                       window.history.back(-1)
+                   }
+                   
+               })
+            }
+            
+        }])
+        App.config(function($stateProvider,$urlRouterProvider){
+            $urlRouterProvider.when("", "/mainpage");//设置默认的显示页面
+            $stateProvider
+            .state('page1',{
+                url:'/page1',
+                templateUrl:"page1.html",
+                controller:'page1',
+                params:{args:{}}
+            })
+            .state('mainpage',{
+                url:'/mainpage',
+                templateUrl:'storageContent.html',
+                controller:'mainpage'
+
+            })
+        })
+        App.controller('page1',['$scope','$stateParams','$http',function($scope,$stateParams,$http){
+            // var idx=$stateParams.index
+            
+            if($stateParams.args.indexid){
+                $scope.isshow=false;
+            }
+            var temp=$stateParams.args;
+            $scope.indexid=temp.indexid;
+            $scope.tiaoma=temp.tiaoma;
+            $scope.pinming=temp.productname;
+            $scope.huohao=temp.huohao;
+            $scope.danwei=temp.danwei;
+            $scope.guige=temp.guige;
+            $scope.leibie=temp.category;
+            $scope.gys=temp.suppliers;
+            $scope.jj=temp.jprice;
+            $scope.ls=temp.lprice;
+            $scope.hy=temp.hprice;
+            $scope.pf=temp.pprice;
+            $scope.kcs=temp.kucun;
+            $scope.kcx=temp.kcxia;
+            $scope.tc=temp.ticheng;
+            $scope.xiaof=temp.jifen;
+
+            $scope.tosave=function(){
+                
+                var obj={
+                    'tiaoma':$scope.tiaoma,
+                    'productname':$scope.pinming,
+                    'huohao':$scope.huohao,
+                    'danwei':$scope.danwei,
+                    'guige':$scope.guige,
+                    'category':$scope.leibie,
+                    'suppliers':$scope.gys,
+                    'jprice':$scope.jj,
+                    'lprice':$scope.ls,
+                    'hprice':$scope.hy,
+                    'pprice':$scope.pf,
+                    'yishou':0,
+                    'kucun':$scope.kcs,
+                    'kcxia':$scope.kcx,
+                    'ticheng':$scope.tc,
+                    'jifen':$scope.xiaof,
+                    'shijian':'2017-07-06'
+
+                }
+                
+                
+                $http.post(erp.baseUrl+'addMsg',obj).success(function(res){
+                    
+                    alert('添加商品成功！')
+                    window.history.back(-1)
+                })
+            }
+            $scope.modify=function(){
+                 var obj={
+                    'indexid':$scope.indexid,
+                    'tiaoma':$scope.tiaoma,
+                    'productname':$scope.pinming,
+                    'huohao':$scope.huohao,
+                    'danwei':$scope.danwei,
+                    'guige':$scope.guige,
+                    'category':$scope.leibie,
+                    'suppliers':$scope.gys,
+                    'jprice':$scope.jj,
+                    'lprice':$scope.ls,
+                    'hprice':$scope.hy,
+                    'pprice':$scope.pf,
+                    'yishou':0,
+                    'kucun':$scope.kcs,
+                    'kcxia':$scope.kcx,
+                    'ticheng':$scope.tc,
+                    'jifen':$scope.xiaof,
+                    'shijian':'2017-07-06'
+
+                }
+                
+                $http.post(erp.baseUrl+'modifyMsg',obj).success(function(res){
+                    
+                    alert('修改商品成功！')
+                    window.history.back(-1)
+                })
+            }
+           
+        }])
+       
+        App.controller('mainpage',function($scope,$stateParams){
+           
+        })
+    </script>
+</html>

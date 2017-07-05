@@ -1,0 +1,74 @@
+@charset "UTF-8";
+/*重置样式表*/
+/*==========样式重置===========*/
+body, h1, h2, h3, h4, h5, h6, p, a, input, img, ul, li, ol, dl, dt, dd { padding: 0; margin: 0; }
+
+ul, ol { list-style: none; }
+
+img { display: block; border: 0; }
+
+input { outline: none; }
+
+header, footer, section, nav { display: block; }
+
+body { /*font-size:12px;*/ font-family: "微软雅黑"; color: #3e3e3e; }
+
+a { text-decoration: none; color: #000; }
+
+* { box-sizing: border-box; }
+
+.clear { zoom: 1; }
+
+.clear::after { content: ''; display: block; clear: both; }
+
+table thead th { text-align: center; }
+
+table thead th:hover { background-color: #ddd; cursor: pointer; }
+
+.storage_title { text-align: center; font-size: 18px; margin: 6px 0 4px 0; }
+
+#storage_content .m_storage_content { width: 100%; height: 100%; overflow: auto; }
+
+#storage_content .m_storage_content .storage_content { width: 2000px; height: 540px; }
+
+#storage_content .m_storage_content .storage_content .table td { text-align: center; }
+
+#storage_content .m_storage_content .storage_content .table thead tr { background-color: #17b6ee; color: #fff; }
+
+.deal_goods { position: relative; padding-left: 10px; display: flex; }
+
+.deal_goods div.second { min-height: 20px; margin-top: 10px; margin-bottom: 10px; padding-left: 20px; }
+
+.deal_goods div.second > #s_l { display: inline-block; font-weight: 200; line-height: 1; }
+
+.deal_goods div.second > #s_l input { margin-right: 6px; }
+
+.deal_goods .btn { position: absolute; right: 50px; bottom: 6px; }
+
+.form-horizontal { height: 600px; position: relative; overflow: auto; }
+
+.form-horizontal .tupian { position: absolute; right: 200px; top: 20px; height: 200px; width: 200px; border: 1px solid #ccc; }
+
+.form-horizontal .tupian p { height: 160px; }
+
+.form-horizontal .baocun { position: absolute; top: 300px; right: 250px; }
+
+.form-horizontal .baocun .btn-warning { margin-left: 30px; }
+
+.ykactive { background-color: #f5f5f5; }
+
+.ykmask { width: 400px; height: 175px; position: absolute; left: 0; top: 0; bottom: 0; right: 0; margin: auto; z-index: 1; background-color: #fff; border: 1px solid #eee; border-radius: 8px; }
+
+.ykmask p { display: flex; justify-content: space-between; background-color: #428bca; color: #fff; border-top-left-radius: 8px; border-top-right-radius: 8px; margin-bottom: 10px; }
+
+.ykmask p span { display: inline-block; padding: 5px; border-radius: 8px; }
+
+.ykmask p span:nth-child(2) { margin-right: 5px; cursor: pointer; }
+
+.ykmask > form { margin-left: 8px; }
+
+.ykmask > form input { width: 96%; }
+
+.ykmask > div { display: flex; justify-content: center; }
+
+.ykmask > div .btn-success { margin-right: 35px; }

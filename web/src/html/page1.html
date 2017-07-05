@@ -1,0 +1,104 @@
+ <form class="form-horizontal">
+   <div class="form-group">
+        <label for="tiaoma" class="col-sm-2 control-label">条码</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control"  ng-model="tiaoma">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="pinming" class="col-sm-2 control-label">品名</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="pinming" ng-model="pinming">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="huohao" class="col-sm-2 control-label">货号</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="huohao" ng-model="huohao">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ls" class="col-sm-2 control-label">零售价</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="ls" placeholder="0.00" ng-model="ls">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="hy" class="col-sm-2 control-label">会员价</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="hy" placeholder="0.00" ng-model="hy">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="pf" class="col-sm-2 control-label">批发价</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="pf" placeholder="0.00" ng-model="pf">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="jj" class="col-sm-2 control-label">进价</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="jj" placeholder="0.00" ng-model="jj">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="tc" class="col-sm-2 control-label">销售提成</label>
+        <div class="col-sm-2">
+        <input type="text" class="form-control" id="tc" placeholder="0.00" ng-model="tc">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="xiaof" class="col-sm-2 control-label">消费1元积分</label>
+        <div class="col-sm-2">
+        <input type="text" class="form-control" id="xiaof" placeholder="0.00" ng-model="xiaof">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="kcs" class="col-sm-2 control-label">库存数</label>
+        <div class="col-sm-2">
+        <input type="text" class="form-control" id="kcs" placeholder="0" ng-model="kcs">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="kcx" class="col-sm-2 control-label">库存下限</label>
+        <div class="col-sm-2">
+        <input type="text" class="form-control" id="kcx" placeholder="0" ng-model="kcx">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="gys" class="col-sm-2 control-label">供应商</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="gys" placeholder="" ng-model="gys" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="danwei" class="col-sm-2 control-label">单位</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="danwei" placeholder="" ng-model="danwei">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="guige" class="col-sm-2 control-label">规格</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="guige" placeholder="" ng-model="guige">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="leibie" class="col-sm-2 control-label">类别</label>
+        <div class="col-sm-4">
+        <input type="text" class="form-control" id="leibie" placeholder="" ng-model="leibie">
+        </div>
+    </div>
+    <div class="tupian">
+        <p></p>
+        <input type="file" placeholder="">
+        
+    </div>
+    <div class="baocun">
+        <button type="button" class="btn btn-success" ng-click="tosave()" ng-show="isshow">保存</button>
+        <button type="button" class="btn btn-success" ng-click="modify()" ng-show='!isshow'>确认修改</button>
+        <button type="button" class="btn btn-warning" data-ui-sref="mainpage">取消</button>
+    </div>
+    
+</form>
+   

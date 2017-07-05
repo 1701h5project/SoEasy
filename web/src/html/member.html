@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>member</title>
+	<link rel="Shortcut Icon" href="../imgs/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css" href="../assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/common/common.css">
+	<link rel="stylesheet" type="text/css" href="../css/member.css">
+	<link rel="stylesheet" href="../css/zh-mu.css">
+	<script type="text/javascript" src="../assets/jquery/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="../assets/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>	
+	<script type="text/javascript" src="../assets/angular/angular.min.js"></script>
+	<script type="text/javascript" src="../assets/angular/angular.global.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../assets/common/global.js"></script>
+</head>
+<body ng-app="member" ng-controller="myMember">
+	<navid api="student/FetchAllStudent"></navid>
+	<div class="member" style="margin-top: 50px;">
+		<ul class="member-ul">
+			<li><button class="btn" ng-click='memberAdd()'><a href="javascript:;">添加</a></button></li>
+			<li><button class="btn" ng-click='memberEdit(focus)'><a href="javascript:;">编辑</a></button></li>
+			<li><button class="btn" ng-click='memberDel(focus)'><a href="javascript:;">删除</a></button></li>
+			<li><button class="btn" ng-click='memberEdit(focus)'><a href="javascript:;">会员充值</a></button></li>
+			<li class="btns"><button class="btn" ng-click='signout()'><a href="javascript:;">退出</a></button></li>
+			<li class="btns"><button class="btn" ng-click='languagecn()'><a href="javascript:;">中文</a></button></li>
+			<li class="btns"><button class="btn" ng-click='languageen()'><a href="javascript:;">English</a></button></li>
+			
+		</ul>
+		<div class="member-Nav">
+			<ul  class="member-nav">
+				<li class="member-nav-li"  ng-repeat="(key, value) in dataset[0]" ng-bind="commonDictionary && commonDictionary[key] && commonDictionary[key][lan] ? commonDictionary[key][lan] : key"></li>
+			</ul>
+	 		<ul class="member-table" ng-repeat="obj in dataset">
+	            <li ng-click='choice($index)' ng-class='{focus: $index==focus}'>
+	                <span ng-repeat="(key, value) in obj" ng-bind="value"></span>
+	            </li>
+	        </ul>					
+		</div>
+	</div>
+	<div ng-hide="asdf" class="zxcv">
+		<form class="form-horizontal">
+		  	<div class="control-group">
+			    <label class="control-label" for="inputEmail">*姓名:</label>
+			    <!-- <div class="controls"> -->
+			      <input type="text" id="inputEmail" ng-model="username">
+			    <!-- </div> -->
+		  	</div>
+			<div class="control-group">
+				<label class="control-label" for="inputPassword" style="margin-left: -26px;">*手机号码:</label>
+				<!-- <div class="controls"> -->
+				  <input type="text" id="inputPassword" ng-model="phone">
+				<!-- </div> -->
+			</div>
+
+			<div class="control-group">
+				
+				<label class="control-label" for="inputPassword">*级别:</label>
+				<!-- <div class="controls"> -->
+				<select  id="inputPassword"  ng-model="level"  ng-blur="levelblurs(level)">
+					<option value="钻石会员">钻石会员</option>
+					<option value="金牌会员">金牌会员</option>
+					<option value="银牌会员">银牌会员</option>
+				</select>				
+				  <!-- <input type="text" id="inputPassw	ord"  ng-model="level"> -->
+				<!-- </div> -->
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputPassword">*折扣:</label>
+				<!-- <div class="controls"> -->
+				  <input type="text" id="inputPassword" ng-model="discount"  readonly="readonly">
+				<!-- </div> -->
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputPassword">*余额:</label>
+				<!-- <div class="controls"> -->
+				  <input type="text" id="inputPassword" ng-model="balance" ng-blur="blurs(balance,integral)">
+				<!-- </div> -->
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputPassword">积分:</label>
+				<!-- <div class="controls"> -->
+				  <input type="text" id="inputPassword"  ng-model="integral" readonly="readonly">
+				<!-- </div> -->
+			</div>	
+			<div class="form-group">
+				<label class="control-label" for="inputPassword">*开卡日期:</label>
+		        <input size="16" type="text" readonly class="form_datetime"  ng-model="date">
+			</div>	
+			<script type="text/javascript">
+		         $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+			</script>        													
+		</form>
+		<div class="button-btn">
+			<button class="btn" ng-click="preservation(phone,username,level,discount,integral,balance,date)">保存</button>
+			<button class="btn" ng-click="memberModify(phone,username,level,discount,integral,balance,date)">更新</button>
+			<button class="btn" ng-click="signOut()">取消</button> 
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+        var matexia = angular.module('member', ['commonApp']);
+        matexia.value('lan', function(){
+		    var lan = window.localStorage.getItem("lan"); 
+			    if(!lan){
+			        lan = "cn";
+			    }
+			    window.localStorage.setItem("lan", lan);
+			    return lan;
+			});
+        matexia.controller('myMember', ['$scope', '$http','lan', function($scope, $http,lan){
+        	$scope.asdf = true;
+        	// $scope.integral = 
+        	// 点击li变色
+			$scope.choice = function(i){
+        		// console.log(i)
+        		 $scope.focus=i;
+        	} 
+        	// 编辑
+        	$scope.memberEdit  = function(i){
+        		$scope.indexqwe = $scope.dataset[i].indexid
+        		 // window.localStorage.setItem("edit", indexqwe);
+        		 $scope.asdf = false;
+				// $scope.addmembernum =  window.localStorage.getItem("edit");		
+		 		if ($scope.indexqwe != null) {
+		 			// 修改数据
+					$http({
+		 				method:"POST",  
+		 				url: erp.baseUrl+"memberEdit",
+		 				params: {'indexid':$scope.indexqwe}, 
+		 			}).success(function(response){
+		 				$scope.phone = response[0].phone
+		 				$scope.username = response[0].username
+		 				$scope.level = response[0].level
+		 				$scope.discount = response[0].discount
+		 				$scope.balance = response[0].balance
+		 				$scope.bas = response[0].balance
+		 				$scope.integral = response[0].integral
+		 				$scope.date = response[0].date
+		 				$scope.indexid = response[0].indexid
+			 		});			
+		 			// console.log
+					
+        			
+					$scope.memberModify = function(phone,username,level,discount,integral,balance,date){
+						var msg = "确定要更新吗?";
+						if (confirm(msg)==true){
+				 			$http({
+				 				method:"POST",  
+				 				url: erp.baseUrl+"memberModify",
+				 				params: {'indexid':$scope.indexid,'phone':phone,'username':username,'level':level,'discount':discount,'integral':integral,'balance':balance,'date':date}, 
+				 			}).success(function(response){
+				 				// console.log(123)
+				 				window.localStorage.removeItem("edit");
+				 				$scope.asdf = true;
+								$http({
+					 				method:"GET",  
+					 				url: erp.baseUrl+"getdataa",
+					 			}).success(function(res){
+					 				$scope.dataset = res;
+					 			})				 				
+					 		})
+							// return true;
+						}else{
+							return false;
+						}					 		
+			 		}
+					 	
+								 			
+		 		};        		 
+        		 // self.location='./addmember.html'; 
+        	}  
+        	// 获取
+        	$http.get(erp.baseUrl+'getdataa').success(function(response){
+        		$scope.dataset = response;
+        		 $http.get('../assets/common/common.txt').success(function(response){
+        		 	$scope.commonDictionary = response;
+        		 })
+        	});
+        	$scope.lan = lan();
+        	// 删除
+        	$scope.memberDel = function(n){
+        		var indexqwe = $scope.dataset[n].indexid
+        		var msg = "您真的确定要删除吗?";
+        		if (confirm(msg)==true){
+					$http({
+		 				method:"POST",  
+		 				url: erp.baseUrl+"memberDel",
+		 				params: {'indexid':indexqwe}, 
+		 			}).success(function(response){
+		 				// console.log(response)
+						$http({
+			 				method:"GET",  
+			 				url: erp.baseUrl+"getdataa",
+			 				// params: {'indexid':indexqwe}, 
+			 			}).success(function(res){
+			 				$scope.dataset = res;
+			 			})		 				
+								
+			 		})  					
+					return true;
+				}else{
+					return false;
+				}
+        		
+				      		
+        	};
+        	// 添加
+        	$scope.memberAdd = function(){
+        		window.localStorage.removeItem("edit");
+        		$scope.asdf = false
+				$scope.phone = ''
+ 				$scope.username = ''
+ 				$scope.level = ''
+ 				$scope.discount = ''
+ 				$scope.balance = ''
+ 				$scope.integral = ''
+ 				$scope.date = ''
+ 				$scope.indexid = ''       		 
+        		// self.location='./addmember.html';
+        	}
+        	// 语言设置
+        	// console.log(234,window.localStorage.getItem("lan"));
+        	$scope.languagecn = function(){
+        		window.localStorage.removeItem("lan");
+        		location.reload()
+        	};
+			$scope.languageen = function(){
+        		window.localStorage.setItem("lan",123);
+        		location.reload()
+        	};
+        	// 获取积分
+        	$scope.blurs = function(balance,int){
+        		if(int){
+        			$scope.integral = Number(int) + Number(balance) - $scope.bas;
+        			// console.log(int,balance,Number(int) + Number(balance).integral,$scope.bas,12)
+        		}else{
+        			$scope.integral = balance;
+        			// console.log($scope.integral,34)
+
+        		}
+        	};
+        	// 获取折扣
+        	$scope.levelblurs = function(level){
+        		if (level == '钻石会员') {
+        			$scope.discount = 20;
+        		}else if (level == '金牌会员') {
+        			$scope.discount = 60;
+        		}else{
+        			$scope.discount = 90;
+        		}
+        	}
+	 		// 添加数据
+			$scope.preservation = function(phone,username,level,discount,integral,balance,date){
+				
+				// console.log($scope.integral)
+				var msge = "确定要添加吗?";
+        		if (confirm(msge)==true){
+					$http({
+		 				method:"POST",  
+		 				url: erp.baseUrl+"memberAdd",
+		 				params: {'phone':phone,'username':username,'level':level,'discount':discount,'integral':integral,'balance':balance,'date':date}, 
+		 			}).success(function(response){
+		 					$scope.asdf = true;
+							$http({
+				 				method:"GET",  
+				 				url: erp.baseUrl+"getdataa",
+				 			}).success(function(res){
+				 				$scope.dataset = res;
+				 			})		 		 					
+			 		}) 
+			 		return true;       			
+        		}else{
+        			return false;
+        		}		
+	 			// console.log(phone,username,level,discount,integral,balance,date)
+	 			
+		 		
+	 		};	
+
+	 		// 取消
+	 		$scope.signOut = function(){
+	 			window.localStorage.removeItem("edit");
+	 			$scope.asdf = true;
+	 			// self.location='./member.html';
+	 		};
+		  	// 退出
+		  	$scope.signout = function(){
+		  		self.location='./index.html'
+		  	}
+
+
+        }])
+
+    </script>	
+</body>
+</html>

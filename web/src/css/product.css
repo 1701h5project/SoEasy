@@ -1,0 +1,7 @@
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {background-color: skyblue;}
+.productList{width:100%;height:100%;overflow:scroll;margin-top: 50px;}
+.productList div{text-align: center;width: 1600px;height:500px;}
+.productList table{margin-bottom:0;}
+.productList table thead th{background: skyblue;text-align: center;}
+.productCtrl{z-index:999;width: 290px;height: 100%;padding: 30px;position: fixed;right: -290px;bottom: 0;background: skyblue;overflow:scroll;}

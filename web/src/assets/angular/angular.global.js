@@ -29,7 +29,7 @@
     }
 })(jQuery);
 
-var globalapp = angular.module('globalapp', []);
+var globalapp = angular.module('globalapp',[]);
 
 globalapp.config(["$httpProvider", function ($httpProvider) {
     $httpProvider.defaults.transformRequest=function(obj){
